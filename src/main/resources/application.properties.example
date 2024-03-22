@@ -1,3 +1,5 @@
+token.signing.key=YOUR_TOKEN_SIGNING_KEY
+
 spring.datasource.hikari.connectionTimeout=20000
 spring.datasource.hikari.maximumPoolSize=5
 
