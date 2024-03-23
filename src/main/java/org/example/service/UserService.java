@@ -9,4 +9,6 @@ public interface UserService {
      List<User> getAllUsers();
 
      UserDetailsService userDetailsService();
+
+     User getUserById(Integer id);
 }

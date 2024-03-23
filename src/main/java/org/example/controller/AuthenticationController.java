@@ -31,7 +31,6 @@ public class AuthenticationController {
     public ResponseEntity<?> signIn(@RequestBody SignInRequest request) {
         try {
             var res = authenticationService.signIn(request);
-            System.out.println("1Log");
             return ResponseEntity.ok(res);
         } catch (IllegalArgumentException exception) {
             return ResponseEntity.status(400).body(exception.getMessage());

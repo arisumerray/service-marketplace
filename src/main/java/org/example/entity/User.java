@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.Set;
 
 @RequiredArgsConstructor
 @AllArgsConstructor
@@ -40,6 +41,9 @@ public class User implements UserDetails {
 
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
+
+    @OneToMany(mappedBy = "authorId")
+    private Set<Post> posts;
 
     @Override
     @Transient
