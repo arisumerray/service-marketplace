@@ -32,8 +32,9 @@ public class PostServiceImpl implements PostService {
                 .orElseThrow(() -> new EntityNotFoundException("Post not found"));
     }
 
-    public List<Post> getAllNotExecutedPosts() {
-        return postRepository.getAllNotExecutedPosts();
+    public List<Post> getAllNotExecutedPosts(String keyword) {
+        return postRepository
+                .getAllNotExecutedPosts(keyword == null ? "" : keyword.toLowerCase());
     }
 
     public List<Post> getAllNotExecutedSellingPosts() {

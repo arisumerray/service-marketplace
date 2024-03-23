@@ -8,7 +8,7 @@ import java.util.List;
 public interface PostService {
 
     Post getPostById(Integer id);
-    List<Post> getAllNotExecutedPosts();
+    List<Post> getAllNotExecutedPosts(String keyword);
     List<Post> getAllNotExecutedSellingPosts();
 
     List<Post> getAllNotExecutedNotSellingPosts();

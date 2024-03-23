@@ -32,8 +32,8 @@ public class PostController {
         }
     }
     @GetMapping
-    public ResponseEntity<List<Post>> getAllPosts() {
-        return ResponseEntity.ok(postService.getAllNotExecutedPosts());
+    public ResponseEntity<List<Post>> getAllPosts(@RequestParam(name = "keyword", required = false) String keyword) {
+        return ResponseEntity.ok(postService.getAllNotExecutedPosts(keyword));
     }
 
     @GetMapping("/selling")
