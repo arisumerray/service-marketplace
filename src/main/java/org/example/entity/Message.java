@@ -2,25 +2,23 @@ package org.example.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @RequiredArgsConstructor
 @AllArgsConstructor
-@Builder
 @Getter
 @Setter
 @Entity
-@Table(name = "posts", schema = "public")
-public class Post {
-
+@Table(name = "messages", schema = "public")
+public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
-    @Column(name = "title", nullable = false)
-    private String title;
 
     @Column(name = "content", nullable = false)
     private String content;
@@ -33,9 +31,8 @@ public class Post {
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
-    @Column(name = "is_executed", nullable = false)
-    private Boolean isExecuted;
-
-    @Column(name = "is_selling", nullable = false)
-    private Boolean isSelling;
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "dialog_id", nullable = false)
+    private Dialog dialogId;
 }

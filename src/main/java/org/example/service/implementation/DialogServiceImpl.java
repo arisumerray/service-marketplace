@@ -1,0 +1,60 @@
+package org.example.service.implementation;
+
+import jakarta.persistence.EntityExistsException;
+import jakarta.persistence.EntityNotFoundException;
+import lombok.AllArgsConstructor;
+import org.example.DialogMapper;
+import org.example.dto.DialogDto;
+import org.example.dto.FullDialogDto;
+import org.example.entity.Dialog;
+import org.example.repository.DialogRepository;
+import org.example.repository.MessageRepository;
+import org.example.repository.UserRepository;
+import org.example.service.DialogService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.stereotype.Service;
+
+import java.security.Principal;
+import java.util.List;
+
+@AllArgsConstructor
+@Service
+public class DialogServiceImpl implements DialogService {
+
+    @Autowired
+    private final DialogRepository dialogRepository;
+
+    @Autowired
+    private final UserRepository userRepository;
+
+    @Autowired
+    private final DialogMapper dialogMapper;
+
+    public Dialog createDialog(Integer userToId, Integer userFromId) {
+        var dialog = Dialog.builder().id(0).build();
+        dialogRepository.save(dialog);
+
+        var userTo = userRepository.findById(userToId);
+        var userFrom = userRepository.findById(userFromId);
+
+        userTo.get().getDialogs().add(dialog);
+        userFrom.get().getDialogs().add(dialog);
+        try {
+            userRepository.save(userTo.get());
+            userRepository.save(userFrom.get());
+        } catch (DataIntegrityViolationException e) {
+            throw new EntityExistsException("Dialog already exists");
+        }
+        return dialog;
+    }
+
+    public FullDialogDto getDialog(Integer id) {
+        return dialogMapper.toFullDto(dialogRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Dialog not found")));
+    }
+
+    public List<DialogDto> getAllDialogs(Integer id) {
+        return dialogMapper.toDtos(dialogRepository.findAllByUserId(id));
+    }
+}
