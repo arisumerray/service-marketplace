@@ -1,14 +1,13 @@
 package org.example.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
+@Builder
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -23,7 +22,19 @@ public class Message {
     @Column(name = "content", nullable = false)
     private String content;
 
-    @JsonIgnore
+    @JsonIgnoreProperties(value = {
+            "email",
+            "passwordHash",
+            "phoneNumber",
+            "role",
+            "createdAt",
+            "authorities",
+            "username",
+            "accountNonExpired",
+            "accountNonLocked",
+            "credentialsNonExpired",
+            "password",
+            "enabled"})
     @ManyToOne
     @JoinColumn(name = "author_id", nullable = false)
     private User authorId;
