@@ -61,6 +61,14 @@ public class User implements UserDetails {
         inverseJoinColumns = @JoinColumn(name = "dialog_id", referencedColumnName = "id"))
     private List<Dialog> dialogs = new ArrayList<>();
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "senderId")
+    private List<ServiceOffer> serviceOffersOutgoing = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "receiverId")
+    private List<ServiceOffer> serviceOffersIncoming = new ArrayList<>();
+
     @Override
     @Transient
     public Collection<? extends GrantedAuthority> getAuthorities() {

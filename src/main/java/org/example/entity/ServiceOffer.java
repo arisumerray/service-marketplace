@@ -1,21 +1,17 @@
 package org.example.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
-
 @RequiredArgsConstructor
-@AllArgsConstructor
 @Builder
+@AllArgsConstructor
 @Getter
 @Setter
 @Entity
-@Table(name = "posts", schema = "public")
-public class Post {
-
+@Table(name = "service_offers", schema = "public")
+public class ServiceOffer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -26,8 +22,13 @@ public class Post {
     @Column(name = "content", nullable = false)
     private String content;
 
+    @Column(name = "price", nullable = false)
+    private Integer price;
+
     @JsonIgnoreProperties(value = {
+            "email",
             "passwordHash",
+            "role",
             "createdAt",
             "authorities",
             "username",
@@ -37,15 +38,25 @@ public class Post {
             "password",
             "enabled"})
     @ManyToOne
-    @JoinColumn(name = "author_id", nullable = false)
-    private User authorId;
+    @JoinColumn(name = "sender_id", nullable = false)
+    private User senderId;
 
-    @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt;
+    @JsonIgnoreProperties(value = {
+            "email",
+            "passwordHash",
+            "role",
+            "createdAt",
+            "authorities",
+            "username",
+            "accountNonExpired",
+            "accountNonLocked",
+            "credentialsNonExpired",
+            "password",
+            "enabled"})
+    @ManyToOne
+    @JoinColumn(name = "receiver_id", nullable = false)
+    private User receiverId;
 
     @Column(name = "is_executed", nullable = false)
     private Boolean isExecuted;
-
-    @Column(name = "is_selling", nullable = false)
-    private Boolean isSelling;
 }
