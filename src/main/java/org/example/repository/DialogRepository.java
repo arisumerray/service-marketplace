@@ -16,4 +16,11 @@ public interface DialogRepository extends JpaRepository<Dialog, Integer> {
             "JOIN users u ON ud.user_id = u.id " +
             "WHERE u.id = ?1", nativeQuery = true)
     List<Dialog> findAllByUserId(Integer id);
+
+    @Query(value = "SELECT dialog_id " +
+            "FROM users_dialogs " +
+            "WHERE user_id = ?1 " +
+            "AND dialog_id IN " +
+            "(SELECT dialog_id FROM users_dialogs WHERE user_id = ?2)", nativeQuery = true)
+    Integer findDialogBetweenUsers(Integer id1, Integer id2);
 }

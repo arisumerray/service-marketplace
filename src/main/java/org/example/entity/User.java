@@ -61,16 +61,6 @@ public class User implements UserDetails {
         inverseJoinColumns = @JoinColumn(name = "dialog_id", referencedColumnName = "id"))
     private List<Dialog> dialogs = new ArrayList<>();
 
-    public void addDialog(Dialog dialog) {
-        dialogs.add(dialog);
-        dialog.getUsers().add(this);
-    }
-
-    public void removeDialog(Dialog dialog) {
-        dialogs.remove(dialog);
-        dialog.getUsers().remove(this);
-    }
-
     @Override
     @Transient
     public Collection<? extends GrantedAuthority> getAuthorities() {

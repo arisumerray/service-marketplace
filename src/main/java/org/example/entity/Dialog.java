@@ -32,14 +32,4 @@ public class Dialog {
             joinColumns = @JoinColumn(name = "dialog_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
     private List<User> users = new ArrayList<>();
-
-    public void addUser(User user) {
-        users.add(user);
-        user.getDialogs().add(this);
-    }
-
-    public void removeUser(User user) {
-        users.remove(user);
-        user.getDialogs().remove(this);
-    }
 }

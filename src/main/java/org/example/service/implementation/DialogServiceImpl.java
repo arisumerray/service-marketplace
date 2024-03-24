@@ -32,6 +32,11 @@ public class DialogServiceImpl implements DialogService {
     private final DialogMapper dialogMapper;
 
     public Dialog createDialog(Integer userToId, Integer userFromId) {
+        var res = dialogRepository.findDialogBetweenUsers(userToId, userFromId);
+        if (res != null) {
+            throw new EntityExistsException("Dialog already exists");
+        }
+
         var dialog = Dialog.builder().id(0).build();
         dialogRepository.save(dialog);
 
@@ -40,12 +45,9 @@ public class DialogServiceImpl implements DialogService {
 
         userTo.get().getDialogs().add(dialog);
         userFrom.get().getDialogs().add(dialog);
-        try {
-            userRepository.save(userTo.get());
-            userRepository.save(userFrom.get());
-        } catch (DataIntegrityViolationException e) {
-            throw new EntityExistsException("Dialog already exists");
-        }
+        userRepository.save(userTo.get());
+        userRepository.save(userFrom.get());
+
         return dialog;
     }
 
