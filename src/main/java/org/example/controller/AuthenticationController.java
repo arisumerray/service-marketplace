@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.AccessDeniedException;
 
 @RequestMapping("/auth")
 @RestController
@@ -34,6 +35,8 @@ public class AuthenticationController {
             return ResponseEntity.ok(res);
         } catch (IllegalArgumentException exception) {
             return ResponseEntity.status(400).body(exception.getMessage());
+        } catch (AccessDeniedException exception) {
+            return ResponseEntity.status(403).body(exception.getMessage());
         }
     }
 }

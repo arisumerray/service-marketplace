@@ -11,4 +11,6 @@ public interface UserService {
      UserDetailsService userDetailsService();
 
      User getUserById(Integer id);
+
+     public User getSelfUser(String email);
 }

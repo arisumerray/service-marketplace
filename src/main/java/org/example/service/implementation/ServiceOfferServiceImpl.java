@@ -37,6 +37,12 @@ public class ServiceOfferServiceImpl implements ServiceOfferService {
         if (Objects.equals(receiver.getId(), sender.getId())) {
             throw new IllegalArgumentException("You can't send service offer to yourself");
         }
+        if (receiver.getRole().equals("USER_SELLER")) {
+            throw new IllegalArgumentException("You can't send service offer to seller");
+        }
+        if (sender.getRole().equals("USER_BUYER")) {
+            throw new IllegalArgumentException("You can't send service offer, your account has role USER_CUSTOMER");
+        }
         var serviceOffer = serviceOfferMapper.fromDto(createServiceOfferDto);
         serviceOffer.setReceiverId(receiver);
         serviceOffer.setSenderId(sender);

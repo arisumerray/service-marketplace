@@ -11,7 +11,7 @@ import java.util.List;
 public interface DialogService {
     Dialog createDialog(Integer userToId, Integer userFromId);
 
-    FullDialogDto getDialog(Integer id);
+    FullDialogDto getDialog(Integer id, String name);
 
     List<DialogDto> getAllDialogs(Integer id);
 }

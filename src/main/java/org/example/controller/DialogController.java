@@ -10,6 +10,7 @@ import org.example.service.DialogService;
 import org.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -32,11 +33,13 @@ public class DialogController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getDialog(@PathVariable Integer id) {
+    public ResponseEntity<?> getDialog(@PathVariable Integer id, Principal principal) {
         try {
-            return ResponseEntity.ok(dialogService.getDialog(id));
+            return ResponseEntity.ok(dialogService.getDialog(id, principal.getName()));
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(404).body(e.getMessage());
+        } catch (AccessDeniedException e) {
+            return ResponseEntity.status(403).body(e.getMessage());
         }
     }
 

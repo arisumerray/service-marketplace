@@ -49,7 +49,7 @@ public class PostServiceImpl implements PostService {
         var user = userRepository.findByEmail(name);
         post.setCreatedAt(LocalDateTime.now());
         post.setAuthorId(user.orElseThrow(() -> new RuntimeException("Error creating post. Please, try again")));
-        post.setIsSelling(user.get().getRole().equals("SELLER"));
+        post.setIsSelling(user.get().getRole().equals("USER_SELLER"));
         post.setIsExecuted(false);
         try {
             return postRepository.save(post);

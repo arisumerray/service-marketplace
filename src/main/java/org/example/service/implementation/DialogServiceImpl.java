@@ -13,10 +13,12 @@ import org.example.repository.UserRepository;
 import org.example.service.DialogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @AllArgsConstructor
 @Service
@@ -51,9 +53,16 @@ public class DialogServiceImpl implements DialogService {
         return dialog;
     }
 
-    public FullDialogDto getDialog(Integer id) {
-        return dialogMapper.toFullDto(dialogRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Dialog not found")));
+    public FullDialogDto getDialog(Integer id, String name) {
+        try {
+            var res = dialogRepository.findById(id).get();
+            if (res.getUsers().stream().noneMatch(user -> user.getEmail().equals(name))) {
+                throw new AccessDeniedException("You can access only your dialogs");
+            }
+            return dialogMapper.toFullDto(res);
+        } catch (NoSuchElementException e) {
+            throw new EntityNotFoundException("Dialog not found");
+        }
     }
 
     public List<DialogDto> getAllDialogs(Integer id) {

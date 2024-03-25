@@ -9,8 +9,10 @@ import org.example.repository.UserRepository;
 import org.example.service.AuthenticationService;
 import org.example.service.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -51,11 +53,15 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public JwtAuthenticationResponse signIn(SignInRequest request) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getEmail(),
-                        request.getPassword()));
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(request.getEmail(),
+                            request.getPassword()));
+        } catch (AuthenticationException exception) {
+            throw new AccessDeniedException("Invalid email or password.");
+        }
         var user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new IllegalArgumentException("Invalid email or password."));
+                .orElseThrow(() -> new IllegalArgumentException("User with such email not found."));
         var jwt = jwtService.generateToken(user);
         return new JwtAuthenticationResponse(jwt);
     }

@@ -56,7 +56,7 @@ public class ServiceOfferController {
         }
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/execute/{id}")
     public ResponseEntity<?> markAsExecutedServiceOffer(@PathVariable Integer id,
                                                         Principal principal
     ) {
