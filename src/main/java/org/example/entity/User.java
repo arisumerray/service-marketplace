@@ -54,6 +54,10 @@ public class User implements UserDetails {
     private Set<Message> messages;
 
     @JsonIgnore
+    @OneToMany(mappedBy = "userId")
+    private List<Feedback> feedbacks = new ArrayList<>();
+
+    @JsonIgnore
     @ManyToMany
     @JoinTable(
         name = "users_dialogs",
