@@ -24,4 +24,13 @@ public class DocumentController {
             return ResponseEntity.status(500).body(e.getMessage());
         }
     }
+
+    @GetMapping
+    public ResponseEntity<?> getDocuments() {
+        try {
+            return ResponseEntity.ok().body(documentService.getDocuments());
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(e.getMessage());
+        }
+    }
 }

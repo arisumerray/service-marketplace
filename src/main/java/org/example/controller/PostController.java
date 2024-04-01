@@ -16,6 +16,7 @@ import java.security.Principal;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/posts")
@@ -33,6 +34,7 @@ public class PostController {
     }
     @GetMapping
     public ResponseEntity<List<Post>> getAllPosts(@RequestParam(name = "keyword", required = false) String keyword) {
+        System.out.println("Executing getAllPosts with keyword: " + keyword);
         return ResponseEntity.ok(postService.getAllNotExecutedPosts(keyword));
     }
 
