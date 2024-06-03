@@ -54,8 +54,17 @@ public class ServiceOfferServiceImpl implements ServiceOfferService {
         return serviceOfferRepository.findAllOutgoingById(userRepository.findByEmail(name).get().getId());
     }
 
+
     public List<ServiceOffer> getAllServiceOffersIncomingById(String name) {
         return serviceOfferRepository.findAllIncomingById(userRepository.findByEmail(name).get().getId());
+    }
+
+    public ServiceOffer getOfferById(Integer id) {
+        List<ServiceOffer> res = serviceOfferRepository.getOfferById(id);
+        if (!res.isEmpty()) {
+            return res.get(0);
+        }
+        return null;
     }
 
     public ServiceOffer markAsExecuted(Integer offerId, String name) {

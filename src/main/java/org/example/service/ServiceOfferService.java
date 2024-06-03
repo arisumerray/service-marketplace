@@ -12,5 +12,7 @@ public interface ServiceOfferService {
 
     List<ServiceOffer> getAllServiceOffersIncomingById(String name);
 
+    ServiceOffer getOfferById(Integer id);
+
     ServiceOffer markAsExecuted(Integer offerId, String name);
 }

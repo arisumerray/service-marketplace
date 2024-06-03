@@ -15,4 +15,7 @@ public interface ServiceOfferRepository extends JpaRepository<ServiceOffer, Inte
 
     @Query(value = "SELECT * FROM public.service_offers WHERE receiver_id = ?1", nativeQuery = true)
     List<ServiceOffer> findAllIncomingById(Integer id);
+
+    @Query(value = "SELECT * FROM public.service_offers WHERE id = ?1", nativeQuery = true)
+    List<ServiceOffer> getOfferById(Integer id);
 }

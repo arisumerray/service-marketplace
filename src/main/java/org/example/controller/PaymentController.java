@@ -13,7 +13,7 @@ import java.security.Principal;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/paymnets")
+@RequestMapping("/payments")
 public class PaymentController {
     @Autowired
     private final PaymentService paymentService;

@@ -48,7 +48,8 @@ public class DialogController {
         try {
             return ResponseEntity.ok(dialogService.createDialog(userToId,
                     userRepository.findByEmail(principal.getName()).get().getId()));
-        } catch (EntityExistsException e) {
+        }
+        catch (EntityExistsException e) {
             return ResponseEntity.status(409).body(e.getMessage());
         }
     }
